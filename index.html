@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎯 Everyday Tools & Utilities</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, #f0f4ff, #dbeafe);
+      min-height: 100vh;
+      padding: 2rem;
+      color: #1f2937;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      text-align: center;
+      font-weight: 800;
+      margin-bottom: 2rem;
+    }
+
+    .tabs {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .tab-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.5rem;
+      background: #fff;
+      padding: 0.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1.5rem;
+    }
+
+    .tab-buttons button {
+      background: #f3f4f6;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .tab-buttons button.active,
+    .tab-buttons button:hover {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .tab-content {
+      background: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      display: none;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .task-list,
+    .habit-list,
+    .note-list {
+      margin-top: 1rem;
+    }
+
+    .task-item,
+    .habit-item,
+    .note-item {
+      background: #f9fafb;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      margin-bottom: 0.5rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .task-input-group {
+      display: flex;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+
+    .task-input-group input {
+      flex: 1;
+      padding: 0.75rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .task-input-group select {
+      width: 120px;
+      padding: 0.75rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .add-btn {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .add-btn:hover {
+      background: #2563eb;
+    }
+
+    .delete-btn {
+      background: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      padding: 0.4rem 0.75rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .task-content {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .task-checkbox {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .task-text {
+      font-size: 1rem;
+    }
+
+    .task-text.completed {
+      text-decoration: line-through;
+      color: #9ca3af;
+    }
+
+    .calculator-container {
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    .calculator-display {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.5rem;
+      text-align: right;
+      border: 2px solid #e5e7eb;
+      border-radius: 0.5rem 0.5rem 0 0;
+      margin-bottom: 1px;
+      background: #f8fafc;
+    }
+
+    .calculator-keys {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: #e5e7eb;
+      border-radius: 0 0 0.5rem 0.5rem;
+      overflow: hidden;
+    }
+
+    .calculator-key {
+      background: white;
+      border: none;
+      padding: 1rem;
+      font-size: 1.25rem;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .calculator-key:hover {
+      background: #f0f4ff;
+    }
+
+    .calculator-key.operator {
+      background: #dbeafe;
+      font-weight: 600;
+    }
+
+    .calculator-key.equals {
+      background: #3b82f6;
+      color: white;
+      font-weight: 600;
+    }
+
+    .timer-container {
+      max-width: 400px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .timer-display {
+      font-size: 3rem;
+      font-weight: 800;
+      margin: 1.5rem 0;
+      color: #1f2937;
+    }
+
+    .timer-controls {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .timer-btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .timer-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .timer-btn.start {
+      background: #10b981;
+      color: white;
+    }
+
+    .timer-btn.pause {
+      background: #f59e0b;
+      color: white;
+    }
+
+    .timer-btn.reset {
+      background: #ef4444;
+      color: white;
+    }
+
+    .commerce-section {
+      margin-top: 3rem;
+      padding: 2rem;
+      border-radius: 1rem;
+      background: #ffffffcc;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .commerce-section h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .commerce-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .commerce-card {
+      background: #f9fafb;
+      border-radius: 1rem;
+      padding: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .commerce-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+    }
+
+    .commerce-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: #2563eb;
+    }
+
+    .commerce-card p {
+      font-size: 0.95rem;
+      color: #4b5563;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    footer {
+      background: linear-gradient(to right, #2563eb, #3b82f6);
+      padding: 2rem;
+      color: white;
+      border-radius: 1rem;
+      margin-top: 3rem;
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.1);
+      max-width: 960px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .footer-column {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .footer-column h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+
+    .footer-links a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+
+    .footer-bottom {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .social-icon {
+      width: 32px;
+      height: 32px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      transition: background 0.3s;
+    }
+
+    .social-icon:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Enhanced hover effects for e-commerce and business cards */
+    .commerce-card {
+      background: #f9fafb;
+      border-radius: 1rem;
+      padding: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+      transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .commerce-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+      background-color: #f0f9ff;
+    }
+
+    .commerce-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(to right, #3b82f6, #10b981);
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    .commerce-card:hover::before {
+      transform: translateY(0);
+    }
+
+    .commerce-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: #2563eb;
+      transition: color 0.3s;
+    }
+
+    .commerce-card:hover h3 {
+      color: #1d4ed8;
+    }
+
+    .commerce-card p {
+      font-size: 0.95rem;
+      color: #4b5563;
+      transition: color 0.3s;
+    }
+
+    .commerce-card:hover p {
+      color: #1f2937;
+    }
+
+    /* Add a subtle zoom effect for the entire commerce section */
+    .commerce-section {
+      transition: transform 0.5s ease;
+    }
+
+    .commerce-section:hover {
+      transform: scale(1.01);
+    }
+  </style>
+</head>
+
+<body>
+  <h1>🎯 Everyday Tools & Utilities</h1>
+  <div class="tabs">
+    <div class="tab-buttons">
+      <button onclick="showTab('todo')" class="active">To-Do List</button>
+      <button onclick="showTab('habit')">Habit Tracker</button>
+      <button onclick="showTab('calc')">Calculator</button>
+      <button onclick="showTab('notes')">Notes</button>
+      <button onclick="showTab('timer')">Timer</button>
+    </div>
+    <div id="todo" class="tab-content active">
+      <h2>To-Do List with Categories</h2>
+      <div class="task-input-group">
+        <input type="text" id="taskInput" placeholder="Add a new task...">
+        <select id="categorySelect">
+          <option value="📚">📚 Study</option>
+          <option value="🛒">🛒 Shopping</option>
+          <option value="💻">💻 Work</option>
+          <option value="🏠">🏠 Home</option>
+          <option value="🏋️">🏋️ Exercise</option>
+        </select>
+        <button class="add-btn" onclick="addTask()">Add Task</button>
+      </div>
+      <div class="task-list" id="taskList">
+        <div class="task-item">
+          <div class="task-content">
+            <input type="checkbox" class="task-checkbox" onclick="toggleTask(this)">
+            <span class="task-text">📚 Study for 2 hours</span>
+          </div>
+          <button class="delete-btn" onclick="deleteTask(this)">Delete</button>
+        </div>
+        <div class="task-item">
+          <div class="task-content">
+            <input type="checkbox" class="task-checkbox" onclick="toggleTask(this)">
+            <span class="task-text">🛒 Buy groceries</span>
+          </div>
+          <button class="delete-btn" onclick="deleteTask(this)">Delete</button>
+        </div>
+        <div class="task-item">
+          <div class="task-content">
+            <input type="checkbox" class="task-checkbox" onclick="toggleTask(this)">
+            <span class="task-text">💻 Complete project draft</span>
+          </div>
+          <button class="delete-btn" onclick="deleteTask(this)">Delete</button>
+        </div>
+      </div>
+    </div>
+    <div id="habit" class="tab-content">
+      <h2>Habit Tracker with Streaks</h2>
+      <div class="habit-list">
+        <div class="habit-item">💧 Drink Water - 5 Day Streak</div>
+        <div class="habit-item">🧘‍♂️ Morning Meditation - 3 Day Streak</div>
+        <div class="habit-item">🏃‍♂️ Evening Run - 7 Day Streak</div>
+      </div>
+    </div>
+    <div id="calc" class="tab-content">
+      <h2>Calculator</h2>
+      <div class="calculator-container">
+        <div class="calculator-display" id="calcDisplay">0</div>
+        <div class="calculator-keys">
+          <button class="calculator-key" onclick="appendToDisplay('7')">7</button>
+          <button class="calculator-key" onclick="appendToDisplay('8')">8</button>
+          <button class="calculator-key" onclick="appendToDisplay('9')">9</button>
+          <button class="calculator-key operator" onclick="appendToDisplay('/')">÷</button>
+          <button class="calculator-key" onclick="appendToDisplay('4')">4</button>
+          <button class="calculator-key" onclick="appendToDisplay('5')">5</button>
+          <button class="calculator-key" onclick="appendToDisplay('6')">6</button>
+          <button class="calculator-key operator" onclick="appendToDisplay('*')">×</button>
+          <button class="calculator-key" onclick="appendToDisplay('1')">1</button>
+          <button class="calculator-key" onclick="appendToDisplay('2')">2</button>
+          <button class="calculator-key" onclick="appendToDisplay('3')">3</button>
+          <button class="calculator-key operator" onclick="appendToDisplay('-')">−</button>
+          <button class="calculator-key" onclick="appendToDisplay('0')">0</button>
+          <button class="calculator-key" onclick="appendToDisplay('.')">.</button>
+          <button class="calculator-key" onclick="clearDisplay()">C</button>
+          <button class="calculator-key operator" onclick="appendToDisplay('+')">+</button>
+          <button class="calculator-key" onclick="deleteLastChar()">⌫</button>
+          <button class="calculator-key" onclick="appendToDisplay('(')">(</button>
+          <button class="calculator-key" onclick="appendToDisplay(')')">)</button>
+          <button class="calculator-key equals" onclick="calculate()">=</button>
+        </div>
+      </div>
+    </div>
+    <div id="notes" class="tab-content">
+      <h2>Notes App</h2>
+      <div class="note-list">
+        <div class="note-item" style="background-color: #fef3c7;">📝 Project Ideas</div>
+        <div class="note-item" style="background-color: #d1fae5;">📒 Grocery List</div>
+        <div class="note-item" style="background-color: #e0f2fe;">📚 Study Plan</div>
+      </div>
+    </div>
+    <div id="timer" class="tab-content">
+      <h2>Timer & Stopwatch</h2>
+      <div class="timer-container">
+        <div class="timer-display" id="timerDisplay">00:00:00</div>
+        <div class="timer-controls">
+          <button class="timer-btn start" id="startBtn" onclick="startTimer()">Start</button>
+          <button class="timer-btn pause" id="pauseBtn" onclick="pauseTimer()" disabled>Pause</button>
+          <button class="timer-btn reset" id="resetBtn" onclick="resetTimer()">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="commerce-section">
+    <h2>🛒 E-commerce & Business Applications</h2>
+    <div class="commerce-grid">
+      <div class="commerce-card">
+        <h3>Product Catalog</h3>
+        <p>Filter items by category, sort by price, and view item details with elegant modals.</p>
+      </div>
+      <div class="commerce-card">
+        <h3>Checkout Flow</h3>
+        <p>Streamlined cart summary, secure payment interface, and animated confirmation steps.</p>
+      </div>
+      <div class="commerce-card">
+        <h3>Booking System</h3>
+        <p>Calendar-integrated appointment booking with real-time availability.</p>
+      </div>
+      <div class="commerce-card">
+        <h3>Subscription Service</h3>
+        <p>Dynamic pricing plans with signup animation and feature highlights.</p>
+      </div>
+      <div class="commerce-card">
+        <h3>Business Directory</h3>
+        <p>Explore businesses by category, see ratings, and contact details with fade transitions.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>About Us</h3>
+        <p>We create intuitive productivity tools to help you manage your day-to-day tasks efficiently.</p>
+        <div class="social-links">
+          <a href="#" class="social-icon">f</a>
+          <a href="#" class="social-icon">t</a>
+          <a href="#" class="social-icon">in</a>
+          <a href="#" class="social-icon">ig</a>
+        </div>
+      </div>
+      <div class="footer-column">
+        <h3>Navigation</h3>
+        <ul class="footer-links">
+          <li><a href="#todo">To-Do List</a></li>
+          <li><a href="#habit">Habit Tracker</a></li>
+          <li><a href="#calc">Calculator</a></li>
+          <li><a href="#notes">Notes</a></li>
+          <li><a href="#timer">Timer</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Resources</h3>
+        <ul class="footer-links">
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Tutorials</a></li>
+          <li><a href="#">API Documentation</a></li>
+          <li><a href="#">Community Forum</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Everyday Tools & Utilities. All rights reserved.</p>
+    </div>
+  </footer>
+
+
+  <script>
+    // Tab switching
+    function showTab(id) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-buttons button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    // To-Do List functionality
+    function addTask() {
+      const taskInput = document.getElementById('taskInput');
+      const categorySelect = document.getElementById('categorySelect');
+      const taskList = document.getElementById('taskList');
+
+      if (taskInput.value.trim() === '') return;
+
+      const taskItem = document.createElement('div');
+      taskItem.className = 'task-item';
+      taskItem.innerHTML = `
+        <div class="task-content">
+          <input type="checkbox" class="task-checkbox" onclick="toggleTask(this)">
+          <span class="task-text">${categorySelect.value} ${taskInput.value}</span>
+        </div>
+        <button class="delete-btn" onclick="deleteTask(this)">Delete</button>
+      `;
+
+      taskList.prepend(taskItem);
+      taskItem.style.opacity = '0';
+      setTimeout(() => {
+        taskItem.style.opacity = '1';
+        taskItem.style.transition = 'opacity 0.3s';
+      }, 10);
+
+      taskInput.value = '';
+    }
+
+    function toggleTask(checkbox) {
+      const taskText = checkbox.nextElementSibling;
+      if (checkbox.checked) {
+        taskText.classList.add('completed');
+      } else {
+        taskText.classList.remove('completed');
+      }
+    }
+
+    function deleteTask(button) {
+      const taskItem = button.parentElement;
+      taskItem.style.opacity = '0';
+      setTimeout(() => {
+        taskItem.remove();
+      }, 300);
+    }
+
+    // Add task on Enter key
+    document.getElementById('taskInput').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        addTask();
+      }
+    });
+
+    // Calculator functionality
+    let displayValue = '0';
+
+    function updateDisplay() {
+      document.getElementById('calcDisplay').textContent = displayValue;
+    }
+
+    function appendToDisplay(value) {
+      if (displayValue === '0' && value !== '.') {
+        displayValue = value;
+      } else {
+        displayValue += value;
+      }
+      updateDisplay();
+    }
+
+    function clearDisplay() {
+      displayValue = '0';
+      updateDisplay();
+    }
+
+    function deleteLastChar() {
+      if (displayValue.length > 1) {
+        displayValue = displayValue.slice(0, -1);
+      } else {
+        displayValue = '0';
+      }
+      updateDisplay();
+    }
+
+    function calculate() {
+      try {
+        displayValue = eval(displayValue).toString();
+      } catch (error) {
+        displayValue = 'Error';
+      }
+      updateDisplay();
+    }
+
+    // Timer functionality
+    let timerInterval;
+    let seconds = 0;
+    let minutes = 0;
+    let hours = 0;
+    let isRunning = false;
+
+    function updateTimerDisplay() {
+      const formattedHours = String(hours).padStart(2, '0');
+      const formattedMinutes = String(minutes).padStart(2, '0');
+      const formattedSeconds = String(seconds).padStart(2, '0');
+      document.getElementById('timerDisplay').textContent =
+        `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+    }
+
+    function startTimer() {
+      if (!isRunning) {
+        isRunning = true;
+        document.getElementById('startBtn').disabled = true;
+        document.getElementById('pauseBtn').disabled = false;
+
+        timerInterval = setInterval(function () {
+          seconds++;
+          if (seconds >= 60) {
+            seconds = 0;
+            minutes++;
+            if (minutes >= 60) {
+              minutes = 0;
+              hours++;
+            }
+          }
+          updateTimerDisplay();
+        }, 1000);
+      }
+    }
+
+    function pauseTimer() {
+      clearInterval(timerInterval);
+      isRunning = false;
+      document.getElementById('startBtn').disabled = false;
+      document.getElementById('pauseBtn').disabled = true;
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      isRunning = false;
+      seconds = 0;
+      minutes = 0;
+      hours = 0;
+      updateTimerDisplay();
+      document.getElementById('startBtn').disabled = false;
+      document.getElementById('pauseBtn').disabled = true;
+    }
+  </script>
+</body>
+
+</html>
