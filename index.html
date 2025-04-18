@@ -19,6 +19,41 @@
       min-height: 100vh;
       padding: 2rem;
       color: #1f2937;
+      position: relative;
+    }
+
+
+    .logo-container {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      /* color: #2563eb; */
+      color: #1f2937;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      transition: transform 0.3s, color 0.3s;
+      /* background-color: rgba(255, 255, 255, 0.9); */
+      padding: 0.5rem 1rem;
+      /* border-radius: 0.75rem; */
+      /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);   */
+      /* font-style: italic; */
+    }
+
+    .logo:hover {
+      transform: translateY(-2px);
+      color: #020203;
+    }
+
+    .logo-icon {
+      margin-right: 0.5rem;
+      font-size: 1.75rem;
     }
 
     h1 {
@@ -470,10 +505,28 @@
     .commerce-section:hover {
       transform: scale(1.01);
     }
+
+    #noteContent {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      resize: vertical;
+      font-family: 'Inter', sans-serif;
+    }
   </style>
 </head>
 
 <body>
+
+  <div class="logo-container">
+    <a href="#" class="logo">
+      <span class="logo-icon"></span>
+      <span>ZenDesk</span>
+    </a>
+  </div>
+
   <h1>🎯 Everyday Tools & Utilities</h1>
   <div class="tabs">
     <div class="tab-buttons">
@@ -556,25 +609,67 @@
         </div>
       </div>
     </div>
-    <div id="notes" class="tab-content">
-      <h2>Notes App</h2>
-      <div class="note-list">
-        <div class="note-item" style="background-color: #fef3c7;">📝 Project Ideas</div>
-        <div class="note-item" style="background-color: #d1fae5;">📒 Grocery List</div>
-        <div class="note-item" style="background-color: #e0f2fe;">📚 Study Plan</div>
-      </div>
-    </div>
-    <div id="timer" class="tab-content">
-      <h2>Timer & Stopwatch</h2>
-      <div class="timer-container">
-        <div class="timer-display" id="timerDisplay">00:00:00</div>
-        <div class="timer-controls">
-          <button class="timer-btn start" id="startBtn" onclick="startTimer()">Start</button>
-          <button class="timer-btn pause" id="pauseBtn" onclick="pauseTimer()" disabled>Pause</button>
-          <button class="timer-btn reset" id="resetBtn" onclick="resetTimer()">Reset</button>
+
+    <div class="note-list">
+      <div id="notes" class="tab-content">
+        <h2>Notes App</h2>
+        <div class="task-input-group">
+          <input type="text" id="noteTitle" placeholder="Note title...">
+          <select id="noteColorSelect">
+            <option value="#fef3c7">Yellow</option>
+            <option value="#d1fae5">Green</option>
+            <option value="#e0f2fe">Blue</option>
+            <option value="#fce7f3">Pink</option>
+            <option value="#f3e8ff">Purple</option>
+          </select>
+          <button class="add-btn" onclick="addNote()">Add Note</button>
+        </div>
+        <div class="note-input">
+          <textarea id="noteContent" placeholder="Write your note here..." rows="4"></textarea>
+        </div>
+        <div class="note-list" id="noteList">
+          <div class="note-item" style="background-color: #fef3c7;" onclick="editNote(this)"
+            data-content="- Research new project ideas&#10;- Brainstorm app concepts&#10;- Look into funding options">
+            <div class="note-header">
+              <span class="note-title">📝 Project Ideas</span>
+              <button class="delete-btn" onclick="deleteNote(event, this)">Delete</button>
+            </div>
+            <div class="note-preview">Research new project ideas, Brainstorm app concepts...</div>
+          </div>
+          <div class="note-item" style="background-color: #d1fae5;" onclick="editNote(this)"
+            data-content="- Milk&#10;- Eggs&#10;- Bread&#10;- Vegetables&#10;- Fruits">
+            <div class="note-header">
+              <span class="note-title">📒 Grocery List</span>
+              <button class="delete-btn" onclick="deleteNote(event, this)">Delete</button>
+            </div>
+            <div class="note-preview">Milk, Eggs, Bread, Vegetables, Fruits</div>
+          </div>
+          <div class="note-item" style="background-color: #e0f2fe;" onclick="editNote(this)"
+            data-content="Monday: Math&#10;Tuesday: Science&#10;Wednesday: History&#10;Thursday: Language&#10;Friday: Review all">
+            <div class="note-header">
+              <span class="note-title">📚 Study Plan</span>
+              <button class="delete-btn" onclick="deleteNote(event, this)">Delete</button>
+            </div>
+            <div class="note-preview">Monday: Math, Tuesday: Science, Wednesday: History...</div>
+          </div>
         </div>
       </div>
     </div>
+  </div>
+  </div>
+
+  </div>
+  <div id="timer" class="tab-content">
+    <h2>Timer & Stopwatch</h2>
+    <div class="timer-container">
+      <div class="timer-display" id="timerDisplay">00:00:00</div>
+      <div class="timer-controls">
+        <button class="timer-btn start" id="startBtn" onclick="startTimer()">Start</button>
+        <button class="timer-btn pause" id="pauseBtn" onclick="pauseTimer()" disabled>Pause</button>
+        <button class="timer-btn reset" id="resetBtn" onclick="resetTimer()">Reset</button>
+      </div>
+    </div>
+  </div>
   </div>
 
   <div class="commerce-section">
@@ -642,7 +737,7 @@
 
 
   <script>
-    // Tab switching
+
     function showTab(id) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.tab-buttons button').forEach(btn => btn.classList.remove('active'));
@@ -650,7 +745,7 @@
       event.target.classList.add('active');
     }
 
-    // To-Do List functionality
+
     function addTask() {
       const taskInput = document.getElementById('taskInput');
       const categorySelect = document.getElementById('categorySelect');
@@ -695,14 +790,14 @@
       }, 300);
     }
 
-    // Add task on Enter key
+
     document.getElementById('taskInput').addEventListener('keypress', function (e) {
       if (e.key === 'Enter') {
         addTask();
       }
     });
 
-    // Calculator functionality
+
     let displayValue = '0';
 
     function updateDisplay() {
@@ -741,7 +836,7 @@
       updateDisplay();
     }
 
-    // Timer functionality
+
     let timerInterval;
     let seconds = 0;
     let minutes = 0;
@@ -793,6 +888,136 @@
       updateTimerDisplay();
       document.getElementById('startBtn').disabled = false;
       document.getElementById('pauseBtn').disabled = true;
+    }
+    let activeNoteElement = null;
+    function addNote() {
+      const noteTitle = document.getElementById('noteTitle');
+      const noteContent = document.getElementById('noteContent');
+      const noteColorSelect = document.getElementById('noteColorSelect');
+      const noteList = document.getElementById('noteList');
+
+      if (noteTitle.value.trim() === '') {
+        alert('Please enter a note title');
+        return;
+      }
+
+      if (activeNoteElement) {
+
+        const titleSpan = activeNoteElement.querySelector('.note-title');
+        titleSpan.textContent = `📝 ${noteTitle.value}`;
+
+        activeNoteElement.setAttribute('data-content', noteContent.value);
+        activeNoteElement.style.backgroundColor = noteColorSelect.value;
+
+
+        const preview = activeNoteElement.querySelector('.note-preview');
+        preview.textContent = generatePreview(noteContent.value);
+
+
+        activeNoteElement.classList.remove('active-note');
+        activeNoteElement = null;
+      } else {
+
+        const noteItem = document.createElement('div');
+        noteItem.className = 'note-item';
+        noteItem.style.backgroundColor = noteColorSelect.value;
+        noteItem.setAttribute('onclick', 'editNote(this)');
+        noteItem.setAttribute('data-content', noteContent.value);
+
+        noteItem.innerHTML = `
+        <div class="note-header">
+          <span class="note-title">📝 ${noteTitle.value}</span>
+          <button class="delete-btn" onclick="deleteNote(event, this)">Delete</button>
+        </div>
+        <div class="note-preview">${generatePreview(noteContent.value)}</div>
+      `;
+
+        noteList.prepend(noteItem);
+        noteItem.style.opacity = '0';
+        setTimeout(() => {
+          noteItem.style.opacity = '1';
+          noteItem.style.transition = 'opacity 0.3s';
+        }, 10);
+      }
+
+
+      noteTitle.value = '';
+      noteContent.value = '';
+      updateAddButtonText('Add Note');
+    }
+
+    function editNote(noteElement) {
+      const noteTitle = document.getElementById('noteTitle');
+      const noteContent = document.getElementById('noteContent');
+      const noteColorSelect = document.getElementById('noteColorSelect');
+
+
+      if (activeNoteElement) {
+        activeNoteElement.classList.remove('active-note');
+      }
+
+
+      noteElement.classList.add('active-note');
+      activeNoteElement = noteElement;
+
+
+      const titleText = noteElement.querySelector('.note-title').textContent;
+      noteTitle.value = titleText.replace('📝 ', '');
+
+      noteContent.value = noteElement.getAttribute('data-content');
+
+      const bgColor = window.getComputedStyle(noteElement).backgroundColor;
+      const rgbToHex = function (rgb) {
+
+        if (rgb.startsWith('rgb')) {
+          const parts = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+          if (parts) {
+            delete parts[0];
+            for (let i = 1; i <= 3; i++) {
+              parts[i] = parseInt(parts[i]).toString(16);
+              if (parts[i].length === 1) parts[i] = '0' + parts[i];
+            }
+            return '#' + parts.join('');
+          }
+        }
+        return rgb;
+      };
+
+
+      noteColorSelect.selectedIndex = 0;
+
+      updateAddButtonText('Update Note');
+    }
+
+    function deleteNote(event, button) {
+      event.stopPropagation();
+
+      const noteItem = button.closest('.note-item');
+
+
+      if (noteItem === activeNoteElement) {
+        document.getElementById('noteTitle').value = '';
+        document.getElementById('noteContent').value = '';
+        activeNoteElement = null;
+        updateAddButtonText('Add Note');
+      }
+
+
+      noteItem.style.opacity = '0';
+      setTimeout(() => {
+        noteItem.remove();
+      }, 300);
+    }
+
+    function updateAddButtonText(text) {
+      document.querySelector('#notes .add-btn').textContent = text;
+    }
+
+    function generatePreview(content) {
+
+      const preview = content.replace(/\n/g, ', ');
+
+      return preview.length > 100 ? preview.substring(0, 97) + '...' : preview;
     }
   </script>
 </body>
