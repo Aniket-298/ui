@@ -15,7 +15,7 @@ Welcome to **Everyday Tools & Utilities** – a beautifully designed all-in-one 
 - 🧮 **Simple Calculator**  
   A clean and easy-to-use calculator for everyday math operations.
 
-- 📝 **Notes App (Coming Soon)**  
+- 📝 **Notes App **  
   Organize quick thoughts or to-do items with a basic notes system.
 
 - ⏱️ **Timer**  
