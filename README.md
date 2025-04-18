@@ -1,4 +1,4 @@
-# 🧘‍♂️ ZenDesk-Everyday Tools & Utilities
+# 🎯 ZenDesk-Everyday Tools & Utilities
 
 🌐 **Live Demo**: [https://aniket-298.github.io/ui/](https://aniket-298.github.io/ui/)
 
